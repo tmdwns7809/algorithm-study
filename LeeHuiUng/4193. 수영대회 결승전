@@ -1,0 +1,98 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+class Node{
+	int y, x, t;
+	
+	public Node(int y, int x, int t) {
+		this.y=y;
+		this.x=x;
+		this.t=t;
+	}
+}
+
+public class Solution {
+	static int N, startY, startX, endY, endX, ans;
+	static int[][] map;
+	static boolean[][] visited;
+
+	static int[] dy = {-1, 0, 0, 1};
+	static int[] dx = {0, -1, 1, 0};
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader sc = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+
+		int T = Integer.parseInt(sc.readLine());
+		for(int test_case=1; test_case<=T; test_case++) {
+			N = Integer.parseInt(sc.readLine());
+
+			// 맵 초기화
+			map = new int[N][N];
+			visited = new boolean[N][N];
+			for(int i=0; i<N; i++) {
+				st = new StringTokenizer(sc.readLine());
+				for(int j=0; j<N; j++) {
+					map[i][j] = Integer.parseInt(st.nextToken());
+				}
+			}
+
+			// 시작점
+			st = new StringTokenizer(sc.readLine());
+			startY = Integer.parseInt(st.nextToken());
+			startX = Integer.parseInt(st.nextToken());
+
+			// 도착점
+			st = new StringTokenizer(sc.readLine());
+			endY = Integer.parseInt(st.nextToken());
+			endX = Integer.parseInt(st.nextToken());
+
+			ans=999;
+			if(!solve()) ans = -1;
+			System.out.println("#"+test_case+" "+ans);
+		}
+	}
+
+	static boolean solve() {
+		Queue<Node> q = new LinkedList<>();
+		visited[startY][startX]=true;
+		q.add(new Node(startY, startX, 0));
+		
+		while(!q.isEmpty()) {
+			Node curN = q.poll();
+			
+			for(int k=0; k<4; k++) {
+				int cy = dy[k]+curN.y;
+				int cx = dx[k]+curN.x;
+				
+				if(cy==endY && cx==endX) {
+					ans = Math.min(ans, curN.t+1);
+					return true;
+				}
+
+				if(inRange(cy,cx) && map[cy][cx]!=1 && !visited[cy][cx]) {
+					if(map[cy][cx]==2) {
+						if(curN.t%3==2) {
+							visited[cy][cx]=true;
+							q.add(new Node(cy, cx, curN.t+1));
+						}else {
+							visited[curN.y][curN.x]=true;
+							q.add(new Node(curN.y, curN.x, curN.t+1));
+						}
+					}else{
+						visited[cy][cx]=true;
+						q.add(new Node(cy, cx, curN.t+1));
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	static boolean inRange(int y, int x) {
+		return (y>=0 && y<N) && (x>=0 && x<N);
+	}
+}
