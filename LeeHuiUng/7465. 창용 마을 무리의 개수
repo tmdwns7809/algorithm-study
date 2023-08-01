@@ -1,0 +1,60 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Solution {
+	static boolean[][] map;
+	static int N, M, ans;
+	static boolean[] isPass;
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader sc = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		int test_case=Integer.parseInt(sc.readLine());
+		for(int T=1; T<=test_case; T++) {
+			st = new StringTokenizer(sc.readLine());
+			N = Integer.parseInt(st.nextToken());
+			M = Integer.parseInt(st.nextToken());
+			
+			map = new boolean[N][N];
+			for(int i=0; i<M; i++) {
+				st = new StringTokenizer(sc.readLine());
+				int y = Integer.parseInt(st.nextToken());
+				int x = Integer.parseInt(st.nextToken());
+				map[y-1][x-1]=true;
+				map[x-1][y-1]=true;
+			}
+			
+			isPass = new boolean[N];
+			ans=0;
+			
+			for(int i=0; i<N; i++) {
+				if(!isPass[i]) {
+					solve(i);
+					ans++;
+				}
+			}
+			System.out.println("#"+T+" "+ans);
+		}
+	}
+	
+	public static void solve(int start) {
+		Queue<Integer> q = new LinkedList<>();
+		q.add(start);
+		isPass[start]=true;
+		
+		while(!q.isEmpty()) {
+			start = q.poll();
+			
+			for(int i=0; i<N; i++) {
+				if(!isPass[i] && map[start][i]) {
+					q.add(i);
+					isPass[i]=true;
+				}
+			}
+		}
+	}
+}
