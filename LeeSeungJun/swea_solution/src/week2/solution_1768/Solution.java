@@ -93,7 +93,7 @@ class Solution {
 		Scanner sc = new Scanner(System.in);
 		T = sc.nextInt();
 
-		UserSolutionAnswer usersolution = new UserSolutionAnswer();
+		UserSolution usersolution = new UserSolution();
 		for (int testcase = 1; testcase <= T; ++testcase) {
 			initialize(sc);
 

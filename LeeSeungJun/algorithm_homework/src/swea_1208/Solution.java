@@ -64,7 +64,6 @@ public class Solution {
 			}
 			
 			System.out.printf("#%d %d%n", t, arr[99] - arr[0]);
-
 		}
 
 	}
