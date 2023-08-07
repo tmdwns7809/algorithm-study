@@ -1,0 +1,149 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+class Fish{
+    int y, x, d, dir;
+
+    public Fish(int y, int x, int d, int dir) {
+        this.y=y;
+        this.x=x;
+        this.d=d;
+        this.dir=dir;
+    }
+}
+
+public class Main {    
+    static int N, ans;
+    static int[][] map;
+    static Map<Integer, Fish> fish = new HashMap<>();
+    
+    static int[] dy = {0, -1, -1, 0, 1, 1, 1, 0, -1};
+    static int[] dx = {0, 0, -1, -1, -1, 0, 1, 1, 1};
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader sc = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        N = 4; // 4x4 크기
+        map = new int[N+1][N+1]; // 물고기와 상어 현좌표
+
+        // 물고기 방향, 물고기 위치를 입력한다.
+        for(int i=1; i<=N; i++) {
+            st = new StringTokenizer(sc.readLine());
+            for(int j=1; j<=N; j++) {
+                int a1 = Integer.parseInt(st.nextToken());
+                int b1 = Integer.parseInt(st.nextToken());
+                map[i][j] = a1;
+                fish.put(a1, new Fish(i, j, 1, b1));
+            }
+        }
+
+        // (1,1) 좌표에서 상어 시작
+        solve(1, 1, 0, map, new HashMap<>(fish));
+        System.out.println(ans);
+    }
+
+    public static void solve(int r, int c, int sum, int[][] copy1, Map<Integer, Fish> copy2) {
+        // 기저사례: 범위에 벗어나거나 물고기가 없다면
+        if(!inRange(r,c) || map[r][c]==0) {
+            ans = Math.max(ans, sum);
+            return;
+        }
+
+        // 현재 칸의 물고기의 idx를 파악한다.
+        int num = map[r][c];
+        sum += num;
+        
+        // 해당 물고기 방향을 얻어오고 갈 곳을 정한다.
+        int dir = fish.get(num).dir;
+        
+        // 해당 물고기를 없앤다.
+        map[r][c]=0;
+        fish.get(num).d=0;
+        
+        // 움직이기 전에 백트래킹을 위해 복사한다.
+        moveFish(r, c);
+
+        copy1 = copyArr(map);
+        copy2 = new HashMap<>(fish);
+
+        int ny=r, nx=c;
+        for(int i=1; i<=N; i++) {
+            ny += dy[dir];
+            nx += dx[dir];
+            
+            solve(ny, nx, sum, copy1, copy2);
+            map = copyArr(copy1);
+            fish = new HashMap<>(copy2);
+        }
+        fish.get(num).d=1;
+    }
+
+    // 상어 위치를 매개변수를 받고 물고기를 움직임
+    public static void moveFish(int r, int c) {
+        for(int i=1; i<=16; i++) {
+            if(fish.get(i).d==0) continue;
+
+            // 현재 물고기 위치 받아오기
+            int dir = fish.get(i).dir;
+            int y = fish.get(i).y;
+            int x = fish.get(i).x;
+
+            // 현재 위치에서 반시계로 돌기
+            for(int k=1; k<=8; k++, dir++) {
+                if(dir==9) dir=1;
+
+                int ny = y+dy[dir];
+                int nx = x+dx[dir];
+
+                // 범위를 벗어나거나 상어 위치라면 못가니깐 다시 다른 방향 탐색
+                if(!inRange(ny, nx) || (ny==r&&nx==c)) continue;
+                
+                // 바라보는 방향에 물고기가 있다면 위치 변경하기
+                if(map[ny][nx]!=0) {
+                    int key = map[ny][nx];
+                    map[ny][nx] = map[y][x];
+                    map[y][x] = key;
+                    fish.put(i, new Fish(ny, nx, 1, dir));
+                    fish.put(key, new Fish(y, x, 1, fish.get(key).dir));
+                    break;
+                }
+
+                map[ny][nx] = map[y][x];
+                map[y][x] = 0;
+                fish.put(i, new Fish(ny, nx, 1, dir));
+                break;
+            }
+        }
+    }
+
+    public static void printArr() {
+        for(int[] a:map) {
+            for(int b:a) {
+                System.out.print(b+" ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    // map을 벗어나는지 확인
+    public static boolean inRange(int y, int x) {
+        return (y>=1&&y<=N) && (x>=1&&x<=N);
+    }
+
+    // copy하는 클래스
+    public static int[][] copyArr(int[][] copy) {
+        int[][] tmp = new int[N+1][N+1];
+
+        for(int i=1; i<=N; i++) {
+            for(int j=1; j<=N; j++) {
+                tmp[i][j] = copy[i][j];
+            }
+        }
+        return tmp;
+    }
+}
