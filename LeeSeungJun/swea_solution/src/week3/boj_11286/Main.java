@@ -22,39 +22,62 @@ public class Main {
 					sb.append(list.get(1));
 					list.set(1, list.get(list.size()-1));
 					list.remove(list.size()-1);
-					if (list.size() > 1) {
-						int idx = 1;
-						while (true) {
-							int min = Math.abs(list.get(idx));
-							int cIdx = idx;
-							int leftIdx = idx*2;
-							int rightIdx = leftIdx + 1;
-							if (leftIdx < list.size()) {
-								if (Math.abs(list.get(leftIdx)) < min
-										|| (Math.abs(list.get(leftIdx))==min 
-										&& list.get(leftIdx)<list.get(idx))) {
-									min = Math.abs(list.get(leftIdx));
-									cIdx = leftIdx;
-								}
+//					int parent = 1;
+//					int child;
+//					while (true) {
+//						child = parent*2;
+//						if (child+1<list.size() 
+//								&& (Math.abs(list.get(child+1)) < Math.abs(list.get(child)) 
+//								|| (Math.abs(list.get(child+1))==Math.abs(list.get(child)) 
+//										&& list.get(child+1)<list.get(child)))) {
+//							child++;
+//						}
+//						
+//						if (child >= list.size() 
+//								|| (Math.abs(list.get(parent)) < Math.abs(list.get(child)) 
+//										|| (Math.abs(list.get(parent))==Math.abs(list.get(child)) 
+//											&& list.get(parent)<list.get(child)))) {
+//							break;
+//						}
+//
+//						int temp = list.get(parent);
+//						list.set(parent, list.get(child));
+//						list.set(child, temp);
+//						
+//						parent = child;
+//					}
+
+					int idx = 1;
+					while (true) {
+						int min = Math.abs(list.get(idx));
+						int cIdx = idx;
+						int leftIdx = idx*2;
+						int rightIdx = leftIdx + 1;
+						if (leftIdx < list.size()) {
+							if (Math.abs(list.get(leftIdx)) < min
+									|| (Math.abs(list.get(leftIdx))==min 
+									&& list.get(leftIdx)<list.get(idx))) {
+								min = Math.abs(list.get(leftIdx));
+								cIdx = leftIdx;
 							}
-							if (rightIdx < list.size()) {
-								if (Math.abs(list.get(rightIdx)) < min
-										|| (Math.abs(list.get(rightIdx))==min 
-										&& list.get(rightIdx)<list.get(idx))) {
-									min = Math.abs(list.get(rightIdx));
-									cIdx = rightIdx;
-								}
+						}
+						if (rightIdx < list.size()) {
+							if (Math.abs(list.get(rightIdx)) < min
+									|| (Math.abs(list.get(rightIdx))==min 
+									&& list.get(rightIdx)<list.get(idx))) {
+								min = Math.abs(list.get(rightIdx));
+								cIdx = rightIdx;
 							}
+						}
+						
+						if (idx == cIdx) {
+							break;
+						} else {
+							int temp = list.get(idx);
+							list.set(idx, list.get(cIdx));
+							list.set(cIdx, temp);
 							
-							if (idx == cIdx) {
-								break;
-							} else {
-								int temp = list.get(idx);
-								list.set(idx, list.get(cIdx));
-								list.set(cIdx, temp);
-								
-								idx = cIdx;
-							}
+							idx = cIdx;
 						}
 					}
 				}
