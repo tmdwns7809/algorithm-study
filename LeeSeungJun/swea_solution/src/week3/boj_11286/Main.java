@@ -47,37 +47,39 @@ public class Main {
 //						parent = child;
 //					}
 
-					int idx = 1;
-					while (true) {
-						int min = Math.abs(list.get(idx));
-						int cIdx = idx;
-						int leftIdx = idx*2;
-						int rightIdx = leftIdx + 1;
-						if (leftIdx < list.size()) {
-							if (Math.abs(list.get(leftIdx)) < min
-									|| (Math.abs(list.get(leftIdx))==min 
-									&& list.get(leftIdx)<list.get(idx))) {
-								min = Math.abs(list.get(leftIdx));
-								cIdx = leftIdx;
+					if (list.size() >1) {
+						int idx = 1;
+						while (true) {
+							int min = Math.abs(list.get(idx));
+							int cIdx = idx;
+							int leftIdx = idx*2;
+							int rightIdx = leftIdx + 1;
+							if (leftIdx < list.size()) {
+								if (Math.abs(list.get(leftIdx)) < min
+										|| (Math.abs(list.get(leftIdx))==min 
+										&& list.get(leftIdx)<list.get(idx))) {
+									min = Math.abs(list.get(leftIdx));
+									cIdx = leftIdx;
+								}
 							}
-						}
-						if (rightIdx < list.size()) {
-							if (Math.abs(list.get(rightIdx)) < min
-									|| (Math.abs(list.get(rightIdx))==min 
-									&& list.get(rightIdx)<list.get(idx))) {
-								min = Math.abs(list.get(rightIdx));
-								cIdx = rightIdx;
+							if (rightIdx < list.size()) {
+								if (Math.abs(list.get(rightIdx)) < min
+										|| (Math.abs(list.get(rightIdx))==min 
+										&& list.get(rightIdx)<list.get(cIdx))) {
+									min = Math.abs(list.get(rightIdx));
+									cIdx = rightIdx;
+								}
 							}
-						}
-						
-						if (idx == cIdx) {
-							break;
-						} else {
-							int temp = list.get(idx);
-							list.set(idx, list.get(cIdx));
-							list.set(cIdx, temp);
 							
-							idx = cIdx;
+							if (idx == cIdx) {
+								break;
+							} else {
+								int temp = list.get(idx);
+								list.set(idx, list.get(cIdx));
+								list.set(cIdx, temp);
+								
+								idx = cIdx;
+							}
 						}
 					}
 				}
