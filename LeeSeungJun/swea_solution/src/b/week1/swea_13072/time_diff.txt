@@ -1,0 +1,15 @@
+
+#initTime 10
+#hireTime 25
+#fireTime 4
+#updateSoldierTime 8
+#updateTeamTime 13
+#bestSoldierTime 24
+
+
+#initTime 0
+#hireTime 48
+#fireTime 11
+#updateSoldierTime 16
+#updateTeamTime 59606
+#bestSoldierTime 81
