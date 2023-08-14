@@ -13,12 +13,6 @@ public class Main {
 	static List<Pos> clist2;
 	static int ans;
 
-<<<<<<< HEAD
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-
-=======
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -74,7 +68,6 @@ public class Main {
 			clist2.set(cnt, clist.get(i));
 			recur(cnt+1, i+1);
 		}
->>>>>>> ff983a79bfa86b12115646cdd0679d8e3413f047
 	}
 }
 
