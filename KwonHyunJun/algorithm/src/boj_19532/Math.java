@@ -1,4 +1,4 @@
-package bruteforce;
+package boj_19532;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

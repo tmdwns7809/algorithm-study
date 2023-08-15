@@ -1,4 +1,4 @@
-package bruteforce;
+package boj_2798;
 
 import java.util.ArrayList;
 import java.util.Scanner;

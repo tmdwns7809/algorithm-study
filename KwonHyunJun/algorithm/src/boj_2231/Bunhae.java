@@ -1,4 +1,4 @@
-package bruteforce;
+package boj_2231;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class Bunhae {
 		
 		N = Integer.parseInt(sc.readLine()); 
 		
-		// 자리수 구하기
+		// �옄由ъ닔 援ы븯湲�
 		int num = N; 
 		while(num > 0) {
 			cnt++;
