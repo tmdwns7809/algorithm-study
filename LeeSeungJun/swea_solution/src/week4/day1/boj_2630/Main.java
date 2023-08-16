@@ -32,8 +32,8 @@ public class Main {
 	static void devide(int size, int startR, int startC) {
 		int a = map[startR][startC];
 		boolean full = true;
-		mainloop: for (int i = startR; i < size; i++) {
-			for (int j = startC+1; j < size; j++) {
+		mainloop: for (int i = startR; i < startR+size; i++) {
+			for (int j = startC; j < startC+size; j++) {
 				if (map[i][j]!=a) {
 					full = false;
 					break mainloop;
