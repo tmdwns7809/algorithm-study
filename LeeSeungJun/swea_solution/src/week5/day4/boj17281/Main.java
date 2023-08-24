@@ -26,10 +26,10 @@ public class Main {
 				arr[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
-		
+
 		p[3] = 0;
 		
-		dfs(0,1);
+		dfs(1,1<<3);
 		
 		System.out.println(ans);
 	}
@@ -39,36 +39,68 @@ public class Main {
 			int now = 0;
 			int cb = 0;
 			for (int i = 0; i < N; i++) {
-				Queue<Integer> q = new LinkedList<Integer>();
-				q.add(0);
-				q.add(0);
-				q.add(0);
+//				Queue<Integer> q = new LinkedList<Integer>();
+//				q.add(0);
+//				q.add(0);
+//				q.add(0);
+				boolean[] b = new boolean[3];
 				int out = 0;
 				while (true) {
-					if (arr[i][p[cb]]==0) out++;
-					else {
-						q.add(1);
-						for (int j = 0; j < arr[i][p[cb]]-1; j++) {
-							q.add(0);
-						}
-						while(q.size()>3) {
-							now += q.poll();
-						}
+					switch (arr[i][p[cb]]) {
+					case 0:
+						out++;
+						break;
+
+					case 1:
+						if (b[0]) now++;
+						b[0] = b[1];
+						b[1] = b[2];
+						b[2] = true;
+						break;
+
+					case 2:
+						if (b[0]) now++;
+						if (b[1]) now++;
+						b[0] = b[2];
+						b[1] = true;
+						b[2] = false;
+						break;
+
+					case 3:
+						if (b[0]) now++;
+						if (b[1]) now++;
+						if (b[2]) now++;
+						b[0] = true;
+						b[1] = false;
+						b[2] = false;
+						break;
+
+					case 4:
+						if (b[0]) now++;
+						if (b[1]) now++;
+						if (b[2]) now++;
+						now++;
+						b[0] = false;
+						b[1] = false;
+						b[2] = false;
+						break;
 					}
+					
 					cb=(cb+1)%9;
 					
 					if (out > 2) break;
 				}
 			}
+			
 			if (now > ans) ans = now;
+			
+			return;
 		}
 		
 		for (int i = 0; i < 9; i++) {
-			if (cnt==3) {
-				if (i>0) break;
-			} else if ((v&1<<i)!=0) continue;
+			if ((v&1<<i)!=0) continue;
 			
-			p[cnt] = i;
+			p[i] = cnt;
 			dfs(cnt+1, v|1<<i);
 		}
 	}
