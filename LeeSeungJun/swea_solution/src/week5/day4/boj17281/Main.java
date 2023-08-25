@@ -2,8 +2,6 @@ package week5.day4.boj17281;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -39,7 +37,7 @@ public class Main {
 			int now = 0;
 			int cb = 0;
 			for (int i = 0; i < N; i++) {
-//				Queue<Integer> q = new LinkedList<Integer>();
+//				Queue<Integer> q = new ArrayDeque<>();
 //				q.add(0);
 //				q.add(0);
 //				q.add(0);
